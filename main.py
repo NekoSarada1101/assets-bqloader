@@ -1,8 +1,11 @@
 import json
 
 import pandas as pd
+import requests
 from google.cloud import bigquery, storage
 from google.oauth2 import service_account
+
+from settings import SLACK_INCOMING_WEBHOOK_URL
 
 gsc_service_account_info = json.load(open('cloud_storage_credentials.json'))
 gcs_credentials = service_account.Credentials.from_service_account_info(gsc_service_account_info)
@@ -48,3 +51,18 @@ def bqloader(event, context):
     table = bq_client.get_table('slackbot-288310.my_dataset.asset_trend')
     result = bq_client.insert_rows_from_dataframe(table, df)
     print(result)
+
+    data = {
+        "attachments": [
+            {
+                "color": "ffffff",
+                "text": '資産推移をBQに登録しました。',
+            }
+        ]
+    }
+    print(data)
+
+    json_data = json.dumps(data).encode("utf-8")
+    response = requests.post(SLACK_INCOMING_WEBHOOK_URL, json_data)
+    print(response)
+    print(response.text)
