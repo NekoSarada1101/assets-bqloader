@@ -34,7 +34,7 @@ def bqloader(event, context):
     blob.download_to_filename('/tmp/' + event['name'])
 
     # 列名を変更
-    df = pd.read_csv('/tmp/' + event['name'], header=0)
+    df = pd.read_csv('/tmp/' + event['name'], header=0, encoding='shift-jis')
     df.rename(columns={'日付': 'date', '合計（円）': 'total', '預金・現金・暗号資産（円）': 'cash', '投資信託（円）': 'investment_trust', 'ポイント（円）': 'point'})
 
     # 日付をyyyy-mm-ddに変更
