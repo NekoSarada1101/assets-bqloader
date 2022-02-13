@@ -35,7 +35,7 @@ def bqloader(event, context):
 
     # 列名を変更
     df = pd.read_csv('/tmp/' + event['name'], header=0, encoding='shift-jis')
-    df.rename(columns={'日付': 'date', '合計（円）': 'total', '預金・現金・暗号資産（円）': 'cash', '投資信託（円）': 'investment_trust', 'ポイント（円）': 'point'})
+    df.rename(columns={'日付': 'date', '合計（円）': 'total', '預金・現金・暗号資産（円）': 'cash', '投資信託（円）': 'investment_trust', 'ポイント（円）': 'point'}, inplace=True)
 
     # 日付をyyyy-mm-ddに変更
     df['date'] = df['date'].str.replace('/', '-')
