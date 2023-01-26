@@ -2,10 +2,8 @@ import json
 
 import pandas as pd
 import requests
-from google.cloud import bigquery, storage
-from google.oauth2 import service_account
+from google.cloud import bigquery, storage, secretmanager
 
-from settings import SLACK_INCOMING_WEBHOOK_URL
 
 gsc_service_account_info = json.load(open('cloud_storage_credentials.json'))
 gcs_credentials = service_account.Credentials.from_service_account_info(gsc_service_account_info)
@@ -14,12 +12,8 @@ gcs_client = storage.Client(
     project=gcs_credentials.project_id,
 )
 
-bq_service_account_info = json.load(open('bigquery_credentials.json'))
-bq_credentials = service_account.Credentials.from_service_account_info(bq_service_account_info)
-bq_client = bigquery.Client(
-    credentials=bq_credentials,
-    project=bq_credentials.project_id,
-)
+SLACK_WEBHOOK_URL = secret_client.access_secret_version(request={'name': 'projects/831232013080/secrets/SECRETARY_BOT_V2_SLACK_WEBHOOK_GCP_NOTICE_URL/versions/latest'}).payload.data.decode('UTF-8')
+
 
 
 def bqloader(event, context):

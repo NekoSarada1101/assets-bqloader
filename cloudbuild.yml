@@ -1,31 +1,4 @@
 steps:
-  - name: gcr.io/cloud-builders/gcloud
-    args:
-      - kms
-      - decrypt
-      - "--ciphertext-file=cloud_storage_credentials.json.enc"
-      - "--plaintext-file=cloud_storage_credentials.json"
-      - "--location=global"
-      - "--keyring=my-keyring"
-      - "--key=cloud-storage"
-  - name: gcr.io/cloud-builders/gcloud
-    args:
-      - kms
-      - decrypt
-      - "--ciphertext-file=bigquery_credentials.json.enc"
-      - "--plaintext-file=bigquery_credentials.json"
-      - "--location=global"
-      - "--keyring=my-keyring"
-      - "--key=bigquery"
-  - name: gcr.io/cloud-builders/gcloud
-    args:
-      - kms
-      - decrypt
-      - "--ciphertext-file=settings.py.enc"
-      - "--plaintext-file=settings.py"
-      - "--location=global"
-      - "--keyring=my-keyring"
-      - "--key=settings"
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args:
       - gcloud
@@ -34,7 +7,7 @@ steps:
       - assets-bqloader
       - --region=asia-northeast1
       - --source=.
-      - --trigger-resource=my-assets-1101
+      - --trigger-resource=asset_trend
       - --trigger-event=google.storage.object.finalize
       - --runtime=python39
       - --entry-point=bqloader
