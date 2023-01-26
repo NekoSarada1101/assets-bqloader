@@ -11,3 +11,4 @@ steps:
       - --trigger-event=google.storage.object.finalize
       - --runtime=python39
       - --entry-point=bqloader
+      - --service-account=assets-bqloader@slackbot-288310.iam.gserviceaccount.com
